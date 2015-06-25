@@ -9,7 +9,7 @@
 #define SOCKETNAME  "selectServerSocket"
 
 /* define a struct of ticket on server . */
-struct Ticket
+struct Ticket  //Here's
 	{
 	int ticketNum;
 	bool status;
