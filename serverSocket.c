@@ -12,7 +12,7 @@
 struct Ticket
 	{
 	int ticketNum;
-	bool status;
+	int status;
 	};
 
 int GenerateTicketNum();
@@ -30,12 +30,13 @@ int main(void)
         struct sockaddr_un name;
         fd_set fds;                     /* Set of file descriptors to poll*/
 
-		Ticket arrTicket[10];           /* Set of 10 tickets */
+	struct	Ticket arrTicket[10];           /* Set of 10 tickets */
 
 		/* Initial a random ticket number */
-		for (int i = 0; i < 10; i++)
+		int i;
+		for (i = 0; i < 10; i++)
 			{
-			Ticket t;
+			struct Ticket t;
 			t.ticketNum = GenerateTicketNum();
 			t.status = 0; //0:not sale, 1: sale
 			arrTicket[i] = t;
