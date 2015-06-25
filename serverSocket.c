@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/time.h>
-
+#include <string.h>
 #define SOCKETNAME  "selectServerSocket"
 
 
@@ -114,7 +114,7 @@ int main(void)
                         }
 
 						/* check the command from client */
-						if (stricmp(buf, "buy") == 0)
+						if ((strcmp(buf, "buy\n")) == 0)
 							{
 							/* process buy command */
 							/* pick up an available ticket from the array, then send the ticket number to the client */
@@ -141,7 +141,23 @@ int main(void)
                                 close(ns2);
                                 exit(0);
                         }
-                        send( ns2, buf, nread, 0);
+                        //send( ns2, buf, nread, 0);
+                        if (strcmp(buf, "buy") == 0)
+							{
+							/* process buy command */
+							/* pick up an available ticket from the array, then send the ticket number to the client */
+							int ticketNum = GetAvailableTicket(arrTicket);
+							/* send back to client the ticketNum */
+							if (ticketNum > 0)
+								{
+								/* update ticket is sold in ticket array */
+								UpdateTicketStatus(ticketNum, arrTicket, 1);
+
+								//send back to client the ticket number.
+								sprintf(buf, "%d", ticketNum);
+								send( ns2, buf, nread, 0);
+								}
+							}	
                 }
         } 
 }
@@ -150,19 +166,34 @@ int main(void)
 int GenerateTicketNum()
 	{
 	int r;
+
 	const unsigned int min = 10000;
+
 	const unsigned int max = 99999;
+
     const unsigned int range = 1 + max - min;
+
     const unsigned int buckets = RAND_MAX / range;
+
     const unsigned int limit = buckets * range;
 
+
+
     /* Create equal size buckets all in a row, then fire randomly towards
+
      * the buckets until you land in one of them. All buckets are equally
+
      * likely. If you land off the end of the line of buckets, try again. */
+
     do
+
     {
+
         r = rand();
+
     } while (r >= limit);
+
+
 
     return min + (r / buckets);
 	}
