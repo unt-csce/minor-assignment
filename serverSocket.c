@@ -8,6 +8,7 @@
 
 #define SOCKETNAME  "selectServerSocket"
 
+
 /* define a struct of ticket on server . */
 struct Ticket  //Here's
 	{
@@ -16,6 +17,8 @@ struct Ticket  //Here's
 	};
 
 int GenerateTicketNum();
+int GetAvailableTicket(struct Ticket arr[]);
+void UpdateTicketStatus(int ticketNum, struct Ticket arr[], int status);
 
 int main(void)
 {
@@ -109,7 +112,24 @@ int main(void)
                                 close(ns2);
                                 exit(0);
                         }
-                        send( ns2, buf, nread, 0);
+
+						/* check the command from client */
+						if (stricmp(buf, "buy") == 0)
+							{
+							/* process buy command */
+							/* pick up an available ticket from the array, then send the ticket number to the client */
+							int ticketNum = GetAvailableTicket(arrTicket);
+							/* send back to client the ticketNum */
+							if (ticketNum > 0)
+								{
+								/* update ticket is sold in ticket array */
+								UpdateTicketStatus(ticketNum, arrTicket, 1);
+
+								//send back to client the ticket number.
+								sprintf(buf, "%d", ticketNum);
+								send( ns, buf, nread, 0);
+								}
+							}						
                 }
 
                 if( FD_ISSET(ns2, &fds))
@@ -121,7 +141,7 @@ int main(void)
                                 close(ns2);
                                 exit(0);
                         }
-                        send( ns, buf, nread, 0);
+                        send( ns2, buf, nread, 0);
                 }
         } 
 }
@@ -145,5 +165,33 @@ int GenerateTicketNum()
     } while (r >= limit);
 
     return min + (r / buckets);
+	}
+
+/* Get available ticket from ticket array */
+int GetAvailableTicket(struct Ticket arr[])
+	{
+	int i;
+	for (i = 0; i < 10; i++)
+		{
+		if (arr[i].status == 0)
+			{
+			return arr[i].ticketNum;
+			}
+		}
+	return -1; //no ticket available
+	}
+
+/* update ticket status in ticket array */
+void UpdateTicketStatus(int ticketNum, struct Ticket arr[], int status)
+	{
+	int i;
+	for (i = 0; i < 10; i ++)
+		{
+		if (arr[i].ticketNum == ticketNum)
+			{
+			arr[i].status = status; //ticket sold
+			break;
+			}
+		}
 	}
 
