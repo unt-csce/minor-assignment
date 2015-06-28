@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <sys/types.h> 
 #include <sys/socket.h> 
 #include <string.h> 
@@ -40,6 +41,7 @@ main(void)
                 perror("connect");
                 exit(1);
         }
+		printf("Connected.\n");
 
 
         maxfd = s + 1;

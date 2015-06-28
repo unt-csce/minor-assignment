@@ -83,12 +83,14 @@ int main(void)
         perror("accept");
         exit(1);
         }
+		printf("Client # 1 Connected.\n");
 
         /* Accept another connection. */
         if ((ns2 = accept(s, (struct sockaddr *) &name, &len)) < 0) {
         perror("accept");
         exit(1);
         }
+		printf("Client # 2 Connected.\n");
         
         maxfd = (ns > ns2 ? ns : ns2) + 1;
         while(1){
@@ -114,7 +116,7 @@ int main(void)
                         }
 
 						/* check the command from client */
-						if ((strcmp(buf, "buy\n")) == 0)
+						if ((strcasecmp(buf, "buy\n")) == 0)
 							{
 							/* process buy command */
 							/* pick up an available ticket from the array, then send the ticket number to the client */
@@ -129,7 +131,9 @@ int main(void)
 								sprintf(buf, "%d", ticketNum);
 								send( ns, buf, nread, 0);
 								}
-							}						
+							}
+						/*We need to clear buf here */
+						memset(buf, 0, sizeof buf);
                 }
 
                 if( FD_ISSET(ns2, &fds))
@@ -142,7 +146,7 @@ int main(void)
                                 exit(0);
                         }
                         //send( ns2, buf, nread, 0);
-                        if (strcmp(buf, "buy") == 0)
+                        if (strcasecmp(buf, "buy\n") == 0)
 							{
 							/* process buy command */
 							/* pick up an available ticket from the array, then send the ticket number to the client */
@@ -157,7 +161,9 @@ int main(void)
 								sprintf(buf, "%d", ticketNum);
 								send( ns2, buf, nread, 0);
 								}
-							}	
+							}
+						/*We need to clear buf here */
+						memset(buf, 0, sizeof buf);						
                 }
         } 
 }
