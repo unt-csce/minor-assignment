@@ -1,0 +1,12 @@
+#! /bin/bash 
+#! /bin/sh
+
+gcc serverSocket.c -o serverSocket
+gcc clientSocket1.c -o clientSocket1
+gcc clientSocket2.c -o clientSocket2
+
+./serverSocket
+./clientSocket1
+./clientSocket2
+
+

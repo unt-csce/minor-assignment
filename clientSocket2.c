@@ -8,8 +8,7 @@
 #include <stdlib.h>
 #define SOCKETNAME  "selectServerSocket"
 
-int
-main(void)
+int main(void)
 {
         int s;          /* This end of connection*/
         int len;        /* length of sockaddr */
@@ -66,7 +65,9 @@ main(void)
                                 close(s);
                                 exit(0);
                         }
-						write(1, buf, nread);
+                        write(1, buf, nread);
+						/* print out new line */
+						printf("\n");
                 }
 
                 if( FD_ISSET(0, &fds))
@@ -82,4 +83,5 @@ main(void)
         } 
 
 }
+
 
