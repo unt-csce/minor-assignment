@@ -1,3 +1,8 @@
+/*Group members: Loc Huynh, Christopher Hines, Peter Ogunrinde, & Edmund Sannda
+ *Instructor: Mark Thompson		Class: CSCE3600		Due Date: 06/29/2015
+ *Details: Minor Assignment 3 --- Using Linux Sockets
+ */
+
 #include <stdio.h>
 #include <sys/types.h> 
 #include <sys/socket.h> 
