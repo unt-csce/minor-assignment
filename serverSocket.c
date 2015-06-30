@@ -167,15 +167,19 @@ int main(void)
 								//send back to client the ticket number.
 								bzero(buf,256);
 								sprintf(buf, "%d", ticketNum);
-								//send( ns, buf, nread, 0);	
-								send( ns, buf, strlen(buf), 0);	
+								
+								//send( ns, buf, strlen(buf), 0);	
+								printf("[Server Response:] %s\n", buf);
+								write(ns,buf,strlen(buf));
 								}
 							else /* out of ticket */
 								{
 									//send back to client "out of ticket".
 									bzero(buf,256);
 									sprintf(buf, "%s", "Out Of ticket");
-									send( ns, buf, strlen(buf), 0);									
+									printf("[Server Response:] %s\n", buf);
+									write(ns,buf,strlen(buf));
+									//send( ns, buf, strlen(buf), 0);									
 								}
 							}
 						else if (clientTicketNum > 0)
@@ -189,7 +193,9 @@ int main(void)
 										//send back to client "ticket clientTicketNum is canceled".
 										bzero(buf,256);
 										sprintf(buf, "Cannot Cancel available ticket: %d", clientTicketNum);
-										send( ns, buf, strlen(buf), 0);
+										//send( ns, buf, strlen(buf), 0);
+										printf("[Server Response:] %s\n", buf);
+										write(ns,buf,strlen(buf));
 									}
 								else
 									{
@@ -198,7 +204,9 @@ int main(void)
 										//send back to client "ticket clientTicketNum is canceled".
 										bzero(buf,256);
 										sprintf(buf, "Ticket %d is canceled", clientTicketNum);
-										send( ns, buf, strlen(buf), 0);
+										//send( ns, buf, strlen(buf), 0);
+										printf("[Server Response:] %s\n", buf);
+										write(ns,buf,strlen(buf));
 									}
 								}
 							else /* cancel a wrong ticket number */
@@ -206,7 +214,9 @@ int main(void)
 									//send back to client "Wrong ticket number: clientTicketNum".
 									bzero(buf,256);
 									sprintf(buf, "Wrong Ticket number: %d", clientTicketNum);
-									send( ns, buf, strlen(buf), 0);
+									//send( ns, buf, strlen(buf), 0);
+									printf("[Server Response:] %s\n", buf);
+									write(ns,buf,strlen(buf));
 								}
 							}
 						else /* Invalid Command */
@@ -214,9 +224,12 @@ int main(void)
 								//send back to client "out of ticket".
 								bzero(buf,256);
 								sprintf(buf, "%s", "Invalid Command");								
-								send( ns, buf, strlen(buf), 0);
+								//send( ns, buf, strlen(buf), 0);
+								printf("[Server Response:] %s\n", buf);
+								write(ns,buf,strlen(buf));
 							}						
                 }
+				
 
                 if( FD_ISSET(ns2, &fds))
                 {
@@ -270,14 +283,18 @@ int main(void)
 								//send back to client the ticket number.
 								bzero(buf,256);
 								sprintf(buf, "%d", ticketNum);
-								send( ns2, buf, strlen(buf), 0);								
+								//send( ns2, buf, strlen(buf), 0);								
+								printf("[Server Response:] %s\n", buf);
+								write(ns2,buf,strlen(buf));
 								}
 							else /* out of ticket */
 								{
 									//send back to client "out of ticket".
 									bzero(buf,256);
 									sprintf(buf, "%s", "Out Of ticket");
-									send( ns2, buf, strlen(buf), 0);									
+									//send( ns2, buf, strlen(buf), 0);		
+									printf("[Server Response:] %s\n", buf);
+									write(ns2,buf,strlen(buf));
 								}
 							}
 						else if (clientTicketNum > 0)
@@ -291,7 +308,9 @@ int main(void)
 										//send back to client "ticket clientTicketNum is canceled".
 										bzero(buf,256);
 										sprintf(buf, "Cannot Cancel available ticket: %d", clientTicketNum);
-										send( ns2, buf, strlen(buf), 0);
+										//send( ns2, buf, strlen(buf), 0);
+										printf("[Server Response:] %s\n", buf);
+										write(ns2,buf,strlen(buf));
 									}
 								else
 									{
@@ -300,7 +319,9 @@ int main(void)
 										//send back to client "ticket clientTicketNum is canceled".
 										bzero(buf,256);
 										sprintf(buf, "Ticket %d is canceled", clientTicketNum);
-										send( ns2, buf, strlen(buf), 0);
+										//send( ns2, buf, strlen(buf), 0);
+										printf("[Server Response:] %s\n", buf);
+										write(ns2,buf,strlen(buf));
 									}
 								}
 							else /* cancel a wrong ticket number */
@@ -308,7 +329,9 @@ int main(void)
 									//send back to client "Wrong ticket number: clientTicketNum".
 									bzero(buf,256);
 									sprintf(buf, "Wrong Ticket number: %d", clientTicketNum);
-									send( ns2, buf, strlen(buf), 0);
+									//send( ns2, buf, strlen(buf), 0);
+									printf("[Server Response:] %s\n", buf);
+									write(ns2,buf,strlen(buf));
 								}
 							}
 						else /* Invalid Command */
@@ -316,7 +339,9 @@ int main(void)
 								//send back to client "out of ticket".
 								bzero(buf,256);
 								sprintf(buf, "%s", "Invalid Command");								
-								send( ns2, buf, strlen(buf), 0);
+								//send( ns2, buf, strlen(buf), 0);
+								printf("[Server Response:] %s\n", buf);
+								write(ns2,buf,strlen(buf));
 							}		
                 }
 

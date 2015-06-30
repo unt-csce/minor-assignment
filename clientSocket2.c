@@ -2,7 +2,6 @@
  *Instructor: Mark Thompson		Class: CSCE3600		Due Date: 06/29/2015
  *Details: Minor Assignment 3 --- Using Linux Sockets
  */
- 
 #include <stdio.h>
 #include <sys/types.h> 
 #include <sys/socket.h> 
@@ -67,22 +66,9 @@ int main(void)
 
         /* generate a random 5 digit number to cancel invalid ticket at first */
 		int ticketNumber;
-		//ticketNumber = GenerateRandomNumber(10000, 99999);
-		///* send invalid cancel wrong ticket */
-		//bzero(buf1,256);
-		//sprintf(buf1, "Cancel %d", ticketNumber);						
-		//n = write(s,buf1,strlen(buf1));
-
-		///* print out response from server */
-		//bzero(buf,256);
-		//n = read(s,buf,255);
-		//if (n < 0) 
-		//		error("ERROR reading from socket");
-		//printf("[Client:] %s\n",buf1);
-		//printf("[Server:] %s\n",buf);
-
+		
 		/* generate 7 Buy commands and 1 cancel randomly*/
-		for (i = 0; i < 10; i ++)
+		for (i = 0; i < 8; i ++)
 			{
 			int randomNum;
 			randomNum = GenerateRandomNumber(0, 9);
@@ -90,7 +76,7 @@ int main(void)
 				{
 				bzero(buf1,256);
 				sprintf(buf1, "%s", BUY_COMMAND);
-				printf("[Client:] %s\n",buf1);
+				printf("[Client 2:] %s\n",buf1);
 				n = write(s,buf1,strlen(buf1));
 
 				/* print out response from server */
@@ -99,20 +85,21 @@ int main(void)
 				if (n < 0) 
 						error("ERROR reading from socket");
 
-				//printf("[Client:] %s\n",buf1);
+				//printf("[Client 2:] %s\n",buf1);
 
 				printf("[Server:] %s\n",buf);
 				ticketNumber = atoi(buf);
 				/* save ticket number to array */
 				UpdateTicketNumber(ticketNumber, arrTicketNum,1);
 				}
-			else if (randomNum <= 4) 
+			else if (randomNum <= 3) 
 				{
 				/* cancel a ticket number got from list */
 				ticketNumber = GetAvailableTicket(arrTicketNum);
 				/* send valid cancel ticket */
 				bzero(buf1,256);
 				sprintf(buf1, "Cancel %d", ticketNumber);
+				printf("[Client 1:] %s\n",buf1);
 				n = write(s,buf1,strlen(buf1));
 
 				/* print out response from server */
@@ -121,12 +108,38 @@ int main(void)
 				if (n < 0) 
 						error("ERROR reading from socket");
 
-				//printf("[Client:] %s\n",buf1);
+				//printf("[Client 2:] %s\n",buf1);
 				printf("[Server:] %s\n",buf);
+				UpdateTicketNumber(ticketNumber, arrTicketNum, 0);
 				}
 		}
-		/* wait for a while to ensure that server is ready to exit */
-		for (i = 0; i < 100000; i++)
+
+		
+
+		/* send out wrong command */
+		bzero(buf1,256);
+		sprintf(buf1, "%s", "Send Wrong Command");						
+		n = write(s,buf1,strlen(buf1));
+		printf("[Client 2:] %s\n",buf1);
+		/* print out response from server */
+		bzero(buf,256);
+		n = read(s,buf,255);
+		if (n < 0) 
+				error("ERROR reading from socket");		
+		printf("[Server:] %s\n",buf);
+
+		/* print out ticket table */
+		printf("Print out All Buy Tickets from this Client \n");
+		for (i = 0; i < 10; i++)
+		{
+		if (arrTicketNum[i] != 0)
+			{
+			printf("Ticket %d: %d\n", i, arrTicketNum[i]);
+			}
+		}
+	
+	//	/* wait for a while to ensure that server is ready to exit */
+		for (i = 0; i < 99999999; i++)
 			;
 	close(s);
     return 0;
