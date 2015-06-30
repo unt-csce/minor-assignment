@@ -130,11 +130,10 @@ int main(void)
                             exit(0);
 							}
 
-						/*printf("Here is the message: %s\n",buf);
-						printf("Length of buffer is: %d\n",strlen(buf));*/
-
+						printf("[Client 1:] %s\n",buf);
+						
 						/* correct command received from client */
-						buf[strlen(buf) - 1] = '\0';				
+						//buf[strlen(buf) - 1] = '\0';				
 						
 						int clientTicketNum;
 						clientTicketNum = 0;
@@ -149,9 +148,7 @@ int main(void)
 									pCommand = strtok (NULL, " ");
 									clientTicketNum = atoi(pCommand);					
 									}
-							}
-						else
-							printf("Current buffer is %s, length is %d\n", buf, strlen(buf));
+							}						
 					
 						/* check the command from client */
 						/* Process Buy command */
@@ -234,8 +231,11 @@ int main(void)
                             exit(0);
 							}
 
+						printf("[Client 2:] %s\n",buf);
+						/*printf("Length of buffer is: %d\n",strlen(buf));*/
+
 						/* correct command received from client */
-						buf[strlen(buf) - 1] = '\0';				
+						//buf[strlen(buf) - 1] = '\0';				
 						
 						int clientTicketNum;
 						clientTicketNum = 0;
@@ -251,8 +251,7 @@ int main(void)
 									clientTicketNum = atoi(pCommand);					
 									}
 							}
-						else
-							printf("Current buffer is %s, length is %d\n", buf, strlen(buf));
+						
 					
 						/* check the command from client */
 						/* Process Buy command */
@@ -320,6 +319,7 @@ int main(void)
 								send( ns2, buf, strlen(buf), 0);
 							}		
                 }
+
         } 
 }
 
